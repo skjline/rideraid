@@ -1,0 +1,21 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--<item name="android:textColorPrimary">#263238</item>-->
+        <item name="android:textColorPrimary">@color/colorActionMenuItem</item>
+        <item name="android:textColorSecondary">@color/colorActionMenuItemDisabled</item>
+
+        <item name="actionBarStyle">@style/RiderAidActionBarStyle</item>
+    </style>
+
+    <style name="RiderAidActionBarStyle" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="background">@color/colorActionBar</item>
+        <item name="actionButtonStyle">@color/colorActionMenuItem</item>
+    </style>
+</resources>

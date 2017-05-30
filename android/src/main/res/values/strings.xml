@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Rider Aid</string>
+
+    <string name="title_section1">Activity</string>
+    <string name="title_section2">History</string>
+    <string name="title_section3">Import/Export</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="title_cadence">Cadence</string>
+    <string name="default_cadence">000</string>
+    <string name="unit_cadence">rpm</string>
+
+    <string name="title_speed">Speed</string>
+    <string name="default_speed">00.0</string>
+
+    <string name="title_distance">Distance</string>
+    <string name="default_distance">000</string>
+
+    <string name="title_time">Elapsed Time</string>
+    <string name="default_elapsed_time">00:00:00</string>
+
+    <string name="imperial_units">Imperial (Miles)</string>
+    <string name="unit_mile">Miles</string>
+    <string name="unit_speed_mph">MPH</string>
+
+    <string name="metric_units">Metric (Km)</string>
+    <string name="unit_km">Km</string>
+    <string name="unit_speed_kmh">KmH</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Preferences</string>
+
+    <string name="preference_category_general_settings">General Settings</string>
+
+    <string name="orientation_lock_key">orientation</string>
+    <string name="orientation_lock_title">Lock Orientation</string>
+    <string name="orientation_lock_summary">Locks the screen in portrait mode</string>
+    <string name="orientation_lock_default">true</string>
+
+    <string name="unit_type_key">unit_type</string>
+    <string name="unit_type_title">Unit Type</string>
+    <string name="unit_type_summary">Units displaying distance measurement</string>
+    <string name="unit_type_default">@string/unit_speed_mph</string>
+
+    <string-array name="unit_type_entry">
+        <item>@string/imperial_units</item>
+        <item>@string/metric_units</item>
+    </string-array>
+
+    <string-array name="unit_type_value">
+        <item>@string/unit_speed_mph</item>
+        <item>@string/unit_speed_kmh</item>
+    </string-array>
+
+</resources>
