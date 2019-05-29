@@ -1,13 +1,13 @@
 package com.skjline.rideraid.ant;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.LongDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class Tire {
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({
+    @LongDef({
             CIRCUMFERENCE_MM_20,
             CIRCUMFERENCE_MM_23,
             CIRCUMFERENCE_MM_25,
@@ -21,7 +21,7 @@ public class Tire {
     public @interface TireCircumferenceMM {}
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({
+    @LongDef({
             CIRCUMFERENCE_IN_100,
             CIRCUMFERENCE_IN_125,
             CIRCUMFERENCE_IN_150,
