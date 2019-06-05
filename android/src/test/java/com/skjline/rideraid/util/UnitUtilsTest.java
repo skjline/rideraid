@@ -3,8 +3,7 @@ package com.skjline.rideraid.util;
 import com.skjline.rideraid.R;
 import com.skjline.rideraid.presenter.module.Tick;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -23,6 +22,7 @@ public class UnitUtilsTest {
 
     @Test
     public void unitConversionToMPH() throws Exception {
+
         Assert.assertEquals(2.23694,
                 UnitUtils.convertCalcSpeed(1, R.string.unit_speed_mph),
                 0.00001);
