@@ -57,7 +57,7 @@ public class Telemetry extends Fragment
     private PresenterActions[] presenters;
     private SimpleDateFormat formatter;
 
-    AntBikeDevice device = (AntBikeDevice) RiderAidApplication.ant;
+    AntBikeDevice device = (AntBikeDevice) RiderAidApplication.Companion.getAnt();
 
     private int unit;
 

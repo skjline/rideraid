@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class SplashActivity extends Activity {
-    AntBikeDevice device = (AntBikeDevice) RiderAidApplication.ant;
+    AntBikeDevice device = (AntBikeDevice) RiderAidApplication.Companion.getAnt();
 
     @BindView(R.id.iv_splash_image)
     ImageView imageView;
@@ -31,7 +31,7 @@ public class SplashActivity extends Activity {
         ButterKnife.bind(this);
 
         try {
-            String files[] = getAssets().list("splash");
+            String[] files = getAssets().list("splash");
             for (String file : files) {
                 Log.wtf("Splash", "File: " + file);
             }
