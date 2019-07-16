@@ -1,12 +1,14 @@
-.gradle
-local.properties
 
-.idea
-.DS_Store
-libs
-build
+**/.DS_Store
+**/.idea
+**/.gradle
+
+**/libs
+**/gen
+**/build
+**/captures
 
 **.iml
 **.bat
 
-/captures
+local.properties

@@ -1,0 +1,31 @@
+<menu
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.skjline.rideraid.ui.fragment.LargePageFragment">
+
+    <item
+            android:id="@+id/action_record"
+            android:title="@string/action_settings"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"
+            android:icon="@drawable/ic_record"
+            android:visible="true"/>
+
+    <item
+            android:id="@+id/action_stop"
+            android:title="@string/action_settings"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"
+            android:icon="@drawable/ic_stop"
+            android:visible="false"/>
+
+    <item
+            android:id="@+id/action_preferences"
+            android:title="@string/preferences"
+            android:orderInCategory="100"
+            app:showAsAction="always"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:visible="true"/>
+
+</menu>
