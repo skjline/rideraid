@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.pss9.rideraid.ui.activity.MainActivity"/>
+        <activity android:name="com.pss9.rideraid.ui.activity.RiderActivity"/>
 
         <!-- Preferences -->
         <activity android:name="com.pss9.rideraid.ui.preferences.MainPreferenceActivity"/>

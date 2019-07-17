@@ -15,7 +15,7 @@ public class UnitUtilsTest {
     @Test
     public void unitConversionToKMH() throws Exception {
         Assert.assertEquals(3.6,
-                UnitUtils.convertCalcSpeed(1, R.string.unit_speed_kmh),
+                UnitUtils.INSTANCE.convertCalcSpeed(1, R.string.unit_speed_kmh),
                 0.00001);
     }
 
@@ -23,7 +23,7 @@ public class UnitUtilsTest {
     public void unitConversionToMPH() throws Exception {
 
         Assert.assertEquals(2.23694,
-                UnitUtils.convertCalcSpeed(1, R.string.unit_speed_mph),
+                UnitUtils.INSTANCE.convertCalcSpeed(1, R.string.unit_speed_mph),
                 0.00001);
     }
 
