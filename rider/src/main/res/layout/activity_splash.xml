@@ -7,7 +7,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context="com.pss9.rideraid.ui.activity.SplashActivity">
+                tools:context="com.pss9.rider.ui.activity.SplashActivity">
 
     <ImageView
             android:id="@+id/iv_splash_image"
