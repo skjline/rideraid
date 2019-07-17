@@ -3,34 +3,23 @@ package com.pss9.rider.presenter.module
 import com.pss9.rider.presenter.TimePresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-
 import java.util.concurrent.TimeUnit
 
 class Tick(private val view: TimePresenter.View) : TimePresenter {
-    private var holder: Disposable? = null
+    private val holder = CompositeDisposable()
 
-    override val isActive: Boolean
-        get() = holder != null && !holder!!.isDisposed
+    override fun isActive(): Boolean = holder.size() > 0
 
     override fun start() {
-        if (holder != null) {
-            return
-        }
-
-        val obs = Observable.interval(1000, TimeUnit.MILLISECONDS, Schedulers.newThread())
-        holder = obs
+        holder.add(Observable
+            .interval(1000, TimeUnit.MILLISECONDS, Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { time -> view.updateTime(time!! + 1) }
+            .subscribe { time -> view.updateTime(time.inc()) })
     }
 
     override fun stop() {
-        if (holder == null) {
-            return
-        }
-
-        holder!!.dispose()
-        holder = null
+        holder.clear()
     }
 }

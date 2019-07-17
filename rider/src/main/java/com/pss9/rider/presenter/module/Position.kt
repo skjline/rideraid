@@ -20,12 +20,11 @@ import io.reactivex.subjects.PublishSubject
 
 class Position(private val context: Context, view: PositionPresenter.View) : PositionPresenter {
 
-    override var isActive: Boolean = false
-        private set
-
     private val publish = PublishSubject.create<Location>()
     private val permission = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
     private val locationManager: LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+    private var active = false
 
     private var location: Location? = null
     private var listener: PositionUpdateListener = object : PositionUpdateListener {
@@ -59,7 +58,7 @@ class Position(private val context: Context, view: PositionPresenter.View) : Pos
 
         @SuppressLint("MissingPermission")
         override fun onProviderEnabled(provider: String) {
-            isActive = true
+            active = true
             reset()
 
             val locationProvider = locationManager.getBestProvider(createFineCriteria(), true)
@@ -68,7 +67,7 @@ class Position(private val context: Context, view: PositionPresenter.View) : Pos
         }
 
         override fun onProviderDisabled(provider: String) {
-            isActive = false
+            active = false
             reset()
             locationManager.removeUpdates(this)
         }
@@ -86,6 +85,8 @@ class Position(private val context: Context, view: PositionPresenter.View) : Pos
     override fun stop() {
         dispose()
     }
+
+    override fun isActive(): Boolean = active
 
     fun onPositionChanged(): Observable<Location> = publish
 

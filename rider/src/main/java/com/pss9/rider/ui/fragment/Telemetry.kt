@@ -101,8 +101,8 @@ class Telemetry : Fragment(), TimePresenter.View, TelemetryPresenter.View, Posit
         inflater.inflate(R.menu.menu_main, menu)
 
         val p = presenters!![0]
-        menu.findItem(R.id.action_record).isVisible = !p.isActive
-        menu.findItem(R.id.action_stop).isVisible = p.isActive
+        menu.findItem(R.id.action_record).isVisible = !p.isActive()
+        menu.findItem(R.id.action_stop).isVisible = p.isActive()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -1,9 +1,7 @@
 package com.pss9.rider.presenter
 
 interface PresenterActions {
-    val isActive: Boolean
-
+    fun isActive(): Boolean
     fun start()
-
     fun stop()
 }

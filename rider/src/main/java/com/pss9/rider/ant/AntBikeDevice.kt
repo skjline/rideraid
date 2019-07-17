@@ -3,7 +3,7 @@ package com.pss9.rider.ant
 import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 
-abstract class AntBikeDevice(@Tire.TireCircumferenceMM tire: Long) : AntDevice {
+abstract class AntBikeDevice(tire: Long) : AntDevice {
 
     val onBikeEvent = PublishSubject.create<BikeEvent>()
 

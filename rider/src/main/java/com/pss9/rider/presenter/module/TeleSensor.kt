@@ -10,8 +10,7 @@ class TeleSensor(private val view: TelemetryPresenter.View, private val device: 
 
     private var holder = CompositeDisposable()
 
-    override val isActive: Boolean
-        get() = !holder.isDisposed
+    override fun isActive() = !holder.isDisposed
 
     override fun start() {
         if (device == null) {

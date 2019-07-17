@@ -14,7 +14,7 @@ import com.dsi.ant.plugins.antplus.pccbase.AntPlusBikeSpdCadCommonPcc
 import java.math.BigDecimal
 import java.util.*
 
-class AntGarminGSC10(@Tire.TireCircumferenceMM tire: Long) : AntBikeDevice(tire) {
+class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
     private var antPCC: ArrayList<AntPlusBikeSpdCadCommonPcc>? = ArrayList()
 
     init {
