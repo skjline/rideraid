@@ -14,7 +14,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:name=".RiderAidApplication">
-        <activity android:name=".ui.activity.SplashActivity">
+        <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
@@ -22,10 +22,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.RiderActivity"/>
+        <activity android:name=".ride.RiderActivity"/>
 
         <!-- Preferences -->
-        <activity android:name=".ui.preferences.MainPreferenceActivity"/>
+        <activity android:name=".preference.MainPreferenceActivity"/>
     </application>
 
 </manifest>

@@ -1,6 +1,6 @@
 package com.pss9.rider.presenter
 
-interface PositionPresenter : PresenterActions {
+interface PositionPresenter : PresenterService {
     interface View {
         fun updateDistance(distance: Double)
     }

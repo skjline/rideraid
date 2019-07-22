@@ -1,7 +1,7 @@
 package com.pss9.rider.util;
 
 import com.pss9.rider.R;
-import com.pss9.rider.presenter.module.Tick;
+import com.pss9.rider.ride.module.Tick;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

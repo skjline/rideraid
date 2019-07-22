@@ -1,4 +1,4 @@
-package com.pss9.rider.presenter.module
+package com.pss9.rider.ride.module
 
 import com.pss9.rider.presenter.TimePresenter
 import io.reactivex.Observable

@@ -8,7 +8,8 @@ interface AntDevice {
     fun activate(activity: Activity)
 
     companion object {
-        const val ANT_DEVICE_ACTIVE = 0xFF
+        const val ANT_DEVICE_OPERATION = 9
+        const val ANT_DEVICE_ACTIVE = 1
         const val ANT_DEVICE_ERROR = -1
 
         const val ANT_DEVICE_TYPE_CADENCE = 0

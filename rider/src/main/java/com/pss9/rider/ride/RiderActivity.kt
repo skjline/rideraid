@@ -1,4 +1,4 @@
-package com.pss9.rider.ui.activity
+package com.pss9.rider.ride
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -10,13 +10,13 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.pss9.rider.R
-import com.pss9.rider.ui.fragment.Telemetry
-import com.pss9.rider.ui.preferences.MainPreferenceActivity
+import com.pss9.rider.preference.MainPreferenceActivity
 import com.pss9.rider.util.WindowsUtils
 
 class RiderActivity : AppCompatActivity() {
 
     var listener = { sharedPreferences: SharedPreferences, key: String ->
+        Log.wtf("RiderActivity", "SharedPreference: $key")
         if (key == getString(R.string.orientation_lock_key)) {
             setActivityOrientation(sharedPreferences.getBoolean(key, false))
         }
@@ -32,12 +32,10 @@ class RiderActivity : AppCompatActivity() {
         val orientation = PreferenceManager.getDefaultSharedPreferences(this)
             .getBoolean(
                 getString(R.string.orientation_lock_key),
-                java.lang.Boolean.getBoolean(getString(R.string.orientation_lock_default))
+                getString(R.string.orientation_lock_default).toBoolean()
             )
-        setActivityOrientation(orientation)
 
-        PreferenceManager.getDefaultSharedPreferences(this)
-            .registerOnSharedPreferenceChangeListener(listener)
+        setActivityOrientation(orientation)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
@@ -58,8 +56,15 @@ class RiderActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    public override fun onDestroy() {
-        super.onDestroy()
+    override fun onResume() {
+        super.onResume()
+
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .registerOnSharedPreferenceChangeListener(listener)
+    }
+
+    override fun onPause() {
+        super.onPause()
 
         PreferenceManager.getDefaultSharedPreferences(this)
             .unregisterOnSharedPreferenceChangeListener(listener)

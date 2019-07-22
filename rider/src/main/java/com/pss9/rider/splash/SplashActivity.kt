@@ -1,4 +1,4 @@
-package com.pss9.rider.ui.activity
+package com.pss9.rider.splash
 
 import android.app.Activity
 import android.content.Intent
@@ -10,6 +10,7 @@ import com.pss9.rider.R
 import com.pss9.rider.RiderAidApplication
 import com.pss9.rider.ant.AntBikeDevice
 import com.pss9.rider.ant.AntDevice
+import com.pss9.rider.ride.RiderActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import java.io.IOException
@@ -41,12 +42,12 @@ class SplashActivity : Activity() {
             Log.e("SplashScreen", "Can't load splash image", ioex)
         }
 
-        if (device == null || device!!.isActive) {
+//        if (device == null || device!!.isActive) {
             startTelemetry()
-            return
-        }
-
-        device!!.activate(this)
+//            return
+//        }
+//
+//        device!!.activate(this)
     }
 
     override fun onResume() {
@@ -55,7 +56,9 @@ class SplashActivity : Activity() {
             device!!.onBikeEvent
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ event ->
-                    if (event.type == AntDevice.ANT_DEVICE_ACTIVE) {
+                    if (event.type == AntDevice.ANT_DEVICE_OPERATION &&
+                        event.value == AntDevice.ANT_DEVICE_ACTIVE.toLong()
+                    ) {
                         startTelemetry()
                     }
                 }, { th -> Log.e("Splash", "Can't start application\n${th.message}") })

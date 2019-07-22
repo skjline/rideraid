@@ -36,7 +36,7 @@ class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
                         activateCombinedSpeedSensor(activity.applicationContext, result)
 
                         isActive = true
-                        eventHandler.onEvent(BikeEvent.createEvent(AntDevice.ANT_DEVICE_ACTIVE, 0))
+                        eventHandler.onEvent(BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ACTIVE.toLong()))
                     }
                     RequestAccessResult.DEPENDENCY_NOT_INSTALLED -> {
                         val alertDialogBuilder = AlertDialog.Builder(activity)
@@ -62,19 +62,14 @@ class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
                         alertDialogBuilder.create().show()
                     }
                     else -> eventHandler.onEvent(
-                        BikeEvent.createEvent(
-                            AntDevice.ANT_DEVICE_ERROR,
-                            resultCode.intValue.toLong()
-                        )
+                        BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ERROR.toLong())
                     )
                 }
             }, { state ->
                 if (state == DeviceState.DEAD) {
                     eventHandler.onEvent(
-                        BikeEvent.createEvent(
-                            AntDevice.ANT_DEVICE_ERROR,
-                            DeviceState.DEAD.intValue.toLong()
-                        )
+//                        DeviceState.DEAD.intValue.toLong()
+                        BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ERROR.toLong())
                     )
                 }
             })
@@ -94,7 +89,7 @@ class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
     private fun subscribeCadenceEvent(pcc: AntPlusBikeSpdCadCommonPcc) {
         (pcc as AntPlusBikeCadencePcc).subscribeCalculatedCadenceEvent { _, _, calculatedCadence ->
             eventHandler.onEvent(
-                BikeEvent.createEvent(AntDevice.ANT_DEVICE_TYPE_CADENCE, calculatedCadence.toLong())
+                BikeEvent.createCadanceEvent(calculatedCadence.toLong())
             )
         }
     }
@@ -119,21 +114,16 @@ class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
                                 ) {
                                     // units m/s
                                     eventHandler.onEvent(
-                                        BikeEvent.createEvent(
-                                            AntDevice.ANT_DEVICE_TYPE_SPEED,
-                                            calculatedSpeed.toLong()
-                                        )
+                                        BikeEvent.createSpeedEvent(calculatedSpeed.toLong())
                                     )
                                 }
                             })
 
-                        eventHandler.onEvent(BikeEvent.createEvent(AntDevice.ANT_DEVICE_ACTIVE, 0))
+                        eventHandler.onEvent(BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ACTIVE.toLong()))
                     }
                     else -> eventHandler.onEvent(
-                        BikeEvent.createEvent(
-                            AntDevice.ANT_DEVICE_ERROR,
-                            resultCode.intValue.toLong()
-                        )
+//                            resultCode.intValue.toLong()
+                        BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ERROR.toLong())
                     )
                 }
             },
@@ -142,10 +132,8 @@ class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
             { newDeviceState ->
                 if (newDeviceState == DeviceState.DEAD) {
                     eventHandler.onEvent(
-                        BikeEvent.createEvent(
-                            AntDevice.ANT_DEVICE_ERROR,
-                            DeviceState.DEAD.intValue.toLong()
-                        )
+//                        DeviceState.DEAD.intValue.toLong()
+                        BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ERROR.toLong())
                     )
                 }
             }
