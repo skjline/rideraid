@@ -1,7 +1,8 @@
 package com.pss9.rider.util;
 
 import com.pss9.rider.R;
-import com.pss9.rider.ride.module.Tick;
+import com.pss9.rider.ride.module.TimedPulse;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +16,7 @@ public class UnitUtilsTest {
     @Test
     public void unitConversionToKMH() throws Exception {
         Assert.assertEquals(3.6,
-                UnitUtils.INSTANCE.convertCalcSpeed(1, R.string.unit_speed_kmh),
+                UnitUtils.Companion.convertCalcSpeed(1, R.string.unit_speed_kmh),
                 0.00001);
     }
 
@@ -23,7 +24,7 @@ public class UnitUtilsTest {
     public void unitConversionToMPH() throws Exception {
 
         Assert.assertEquals(2.23694,
-                UnitUtils.INSTANCE.convertCalcSpeed(1, R.string.unit_speed_mph),
+                UnitUtils.Companion.convertCalcSpeed(1, R.string.unit_speed_mph),
                 0.00001);
     }
 
@@ -33,7 +34,7 @@ public class UnitUtilsTest {
         final CountDownLatch count = new CountDownLatch(period);
 
         final long start = System.currentTimeMillis();
-        final Tick ticker = new Tick(second -> {
+        final TimedPulse ticker = new TimedPulse(second -> {
             // Mock View handles updating seconds
 
             // should increment on each second

@@ -7,19 +7,19 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class Tick(private val view: TimePresenter.View) : TimePresenter {
-    private val holder = CompositeDisposable()
+class TimedPulse(private val view: TimePresenter.View) : TimePresenter {
+    private val disposables = CompositeDisposable()
 
-    override fun isActive(): Boolean = holder.size() > 0
+    override fun isActive(): Boolean = disposables.size() > 0
 
     override fun start() {
-        holder.add(Observable
+        disposables.add(Observable
             .interval(1000, TimeUnit.MILLISECONDS, Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { time -> view.updateTime(time.inc()) })
+            .subscribe { time -> view.updateTime(time) })
     }
 
     override fun stop() {
-        holder.clear()
+        disposables.clear()
     }
 }

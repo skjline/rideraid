@@ -28,4 +28,8 @@
         <activity android:name=".preference.MainPreferenceActivity"/>
     </application>
 
+    <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
 </manifest>

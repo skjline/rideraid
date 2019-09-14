@@ -3,7 +3,6 @@ package com.pss9.rider.ride.module
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Criteria
 import android.location.Location
@@ -11,14 +10,13 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.WindowManager
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.pss9.rider.presenter.PositionPresenter
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class Position(private val context: Context, view: PositionPresenter.View) : PositionPresenter {
+class GeoLocationHolder(context: Context, private val view: PositionPresenter.View) :
+    PositionPresenter {
 
     private val publish = PublishSubject.create<Location>()
     private val permission = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -62,8 +60,7 @@ class Position(private val context: Context, view: PositionPresenter.View) : Pos
             reset()
 
             val locationProvider = locationManager.getBestProvider(createFineCriteria(), true)
-//            locationManager.requestLocationUpdates(locationProvider, 0, 0f, locationListener)
-            locationManager.requestLocationUpdates(locationProvider, 0, 0f, this)
+            locationManager.requestLocationUpdates(locationProvider, 250, 0f, this)
         }
 
         override fun onProviderDisabled(provider: String) {
@@ -116,21 +113,10 @@ class Position(private val context: Context, view: PositionPresenter.View) : Pos
             return
         }
 
-        val alert = AlertDialog.Builder(context)
-            .setTitle("Enable Location Provider")
-            .setMessage("Unable to find location provider\r\nWould like to enable location settings now?")
-            .setPositiveButton("Enable") { dialog, which ->
-                val settings = Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                settings.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(settings)
-            }
-            .setNegativeButton("Leave", null)
-            .create()
-
-        if (alert.window != null) {
-            alert.window!!.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
-        }
-        alert.show()
+        view.showWarning(
+            "Location Error",
+            "Unable to find location provider\r\nWould like to enable location settings now?"
+        )
     }
 
     private fun createFineCriteria(): Criteria {

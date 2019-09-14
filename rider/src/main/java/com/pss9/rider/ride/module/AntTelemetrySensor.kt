@@ -6,11 +6,14 @@ import com.pss9.rider.presenter.TelemetryPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
-class TeleSensor(private val view: TelemetryPresenter.View, private val device: AntBikeDevice?) : TelemetryPresenter {
+class AntTelemetrySensor(
+    private val view: TelemetryPresenter.View,
+    private val device: AntBikeDevice?
+) : TelemetryPresenter {
 
-    private var holder = CompositeDisposable()
+    private var disposables = CompositeDisposable()
 
-    override fun isActive() = !holder.isDisposed
+    override fun isActive() = !disposables.isDisposed
 
     override fun start() {
         if (device == null) {
@@ -21,12 +24,13 @@ class TeleSensor(private val view: TelemetryPresenter.View, private val device: 
     }
 
     override fun stop() {
-        holder.clear()
+        disposables.clear()
     }
 
     private fun initializeBikeEventSubscriber() {
         device?.let {
-            holder.add(it.onBikeEvent
+            disposables.add(
+                it.onBikeEvent
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { bikeEvent ->
                     when (bikeEvent.type) {

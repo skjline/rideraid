@@ -1,9 +1,12 @@
 package com.pss9.rider.ride
 
+import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.provider.Settings
 import android.view.*
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.pss9.rider.R
 import com.pss9.rider.RiderAidApplication
@@ -12,9 +15,9 @@ import com.pss9.rider.presenter.PositionPresenter
 import com.pss9.rider.presenter.PresenterService
 import com.pss9.rider.presenter.TelemetryPresenter
 import com.pss9.rider.presenter.TimePresenter
-import com.pss9.rider.ride.module.Position
-import com.pss9.rider.ride.module.TeleSensor
-import com.pss9.rider.ride.module.Tick
+import com.pss9.rider.ride.module.AntTelemetrySensor
+import com.pss9.rider.ride.module.GeoLocationHolder
+import com.pss9.rider.ride.module.TimedPulse
 import com.pss9.rider.util.UnitUtils
 import com.pss9.rider.util.WindowsUtils
 import java.text.SimpleDateFormat
@@ -43,7 +46,13 @@ class Telemetry : Fragment(), TimePresenter.View, TelemetryPresenter.View, Posit
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenters.addAll(listOf(Tick(this), TeleSensor(this, device), Position(context!!, this)))
+        presenters.addAll(
+            listOf(
+                TimedPulse(this),
+                AntTelemetrySensor(this, device),
+                GeoLocationHolder(context!!, this)
+            )
+        )
 
         setHasOptionsMenu(true)
         retainInstance = true
@@ -112,6 +121,24 @@ class Telemetry : Fragment(), TimePresenter.View, TelemetryPresenter.View, Posit
 
     override fun updateDistance(distance: Double) {
         tvDistance.text = UnitUtils.convertDistance(distance, unit).toString()
+    }
+
+    override fun showWarning(title: String, message: String) {
+        val alert = AlertDialog.Builder(activity!!)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Enable") { dialog, which ->
+                val settings = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                settings.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                activity!!.startActivity(settings)
+            }
+            .setNegativeButton("Leave", null)
+            .create()
+
+        if (alert.window != null) {
+            alert.window!!.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
+        }
+        alert.show()
     }
 
     private fun setDisplayUnits() {
