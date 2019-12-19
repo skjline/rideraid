@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import com.pss9.rider.R
+import com.pss9.rider.RiderActivity
 import com.pss9.rider.RiderAidApplication
-import com.pss9.rider.ant.AntBikeDevice
-import com.pss9.rider.ant.AntDevice
-import com.pss9.rider.ride.RiderActivity
+import com.pss9.rider.common.ant.AntBikeDevice
+import com.pss9.rider.common.ant.AntDevice
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import java.io.IOException

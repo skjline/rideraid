@@ -1,4 +1,4 @@
-package com.pss9.rider.presenter
+package com.pss9.rider.service.presenter
 
 interface PresenterService {
     fun isActive(): Boolean

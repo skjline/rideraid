@@ -1,4 +1,4 @@
-package com.pss9.rider.ant
+package com.pss9.rider.common.ant
 
 import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
@@ -14,7 +14,8 @@ abstract class AntBikeDevice(tire: Long) : AntDevice {
 
     var bikeTireCircumference: BigDecimal = BigDecimal(tire)
 
-    protected val eventHandler = object : EventHandler {
+    protected val eventHandler = object :
+        EventHandler {
         override fun onEvent(event: BikeEvent) {
             onBikeEvent.onNext(event)
         }

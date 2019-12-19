@@ -1,4 +1,4 @@
-package com.pss9.rider.util
+package com.pss9.rider.common
 
 import android.content.Context
 import android.view.MenuItem

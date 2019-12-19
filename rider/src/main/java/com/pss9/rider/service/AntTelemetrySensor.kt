@@ -1,8 +1,8 @@
-package com.pss9.rider.ride.module
+package com.pss9.rider.service
 
-import com.pss9.rider.ant.AntBikeDevice
-import com.pss9.rider.ant.AntDevice
-import com.pss9.rider.presenter.TelemetryPresenter
+import com.pss9.rider.common.ant.AntBikeDevice
+import com.pss9.rider.common.ant.AntDevice
+import com.pss9.rider.service.presenter.TelemetryPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 

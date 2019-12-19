@@ -29,6 +29,7 @@
 
     <!-- Preferences -->
     <string name="preferences">Preferences</string>
+    <string name="shared_preferences">SharedPref</string>
 
     <string name="preference_category_general_settings">General Settings</string>
 
@@ -51,5 +52,6 @@
         <item>@string/unit_speed_mph</item>
         <item>@string/unit_speed_kmh</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

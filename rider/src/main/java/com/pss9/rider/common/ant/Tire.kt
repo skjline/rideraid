@@ -1,4 +1,4 @@
-package com.pss9.rider.ant
+package com.pss9.rider.common.ant
 
 interface Tire {
 

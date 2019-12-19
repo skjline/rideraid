@@ -1,4 +1,4 @@
-package com.pss9.rider.ride.module
+package com.pss9.rider.service
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -11,7 +11,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
-import com.pss9.rider.presenter.PositionPresenter
+import com.pss9.rider.service.presenter.PositionPresenter
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
@@ -25,7 +25,8 @@ class GeoLocationHolder(context: Context, private val view: PositionPresenter.Vi
     private var active = false
 
     private var location: Location? = null
-    private var listener: PositionUpdateListener = object : PositionUpdateListener {
+    private var listener: PositionUpdateListener = object :
+        PositionUpdateListener {
         override fun onPositionChanged(location: Location) {
             publish.onNext(location)
         }

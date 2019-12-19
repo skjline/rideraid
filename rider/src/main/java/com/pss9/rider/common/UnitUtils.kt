@@ -1,4 +1,4 @@
-package com.pss9.rider.util
+package com.pss9.rider.common
 
 
 import com.pss9.rider.R
