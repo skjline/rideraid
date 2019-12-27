@@ -43,7 +43,7 @@ class SplashActivity : Activity() {
         }
 
 //        if (device == null || device!!.isActive) {
-            startTelemetry()
+        startTelemetry()
 //            return
 //        }
 //
@@ -61,7 +61,9 @@ class SplashActivity : Activity() {
                     ) {
                         startTelemetry()
                     }
-                }, { th -> Log.e("Splash", "Can't start application\n${th.message}") })
+                }, { throwable ->
+                    Log.e("Splash", "Can't start application\n${throwable.message}")
+                })
         )
     }
 

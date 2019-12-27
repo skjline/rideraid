@@ -20,7 +20,6 @@ class RiderActivity : AppCompatActivity() {
     }
 
     var listener = { sharedPreferences: SharedPreferences, key: String ->
-        Log.wtf("RiderActivity", "SharedPreference: $key")
         if (key == getString(R.string.orientation_lock_key)) {
             setActivityOrientation(sharedPreferences.getBoolean(key, false))
         }
