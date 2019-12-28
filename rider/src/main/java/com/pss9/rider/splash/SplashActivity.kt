@@ -62,7 +62,11 @@ class SplashActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        permission.onValidatePermission(this)
+        // if necessary, permission processor will trigger requests
+        // upon return this::onRequestPermissionResult will be called
+        if (permission.onValidatePermission(this)) {
+            startTelemetry()
+        }
     }
 
 
