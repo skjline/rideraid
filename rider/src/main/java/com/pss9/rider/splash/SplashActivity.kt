@@ -1,5 +1,6 @@
 package com.pss9.rider.splash
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -11,6 +12,7 @@ import com.pss9.rider.RiderActivity
 import com.pss9.rider.RiderAidApplication
 import com.pss9.rider.common.ant.AntBikeDevice
 import com.pss9.rider.common.ant.AntDevice
+import com.pss9.rider.service.PermissionProcessor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import java.io.IOException
@@ -19,6 +21,13 @@ class SplashActivity : Activity() {
 
     private val disposables = CompositeDisposable()
     private var device: AntBikeDevice? = RiderAidApplication.ant
+
+    private val permission = PermissionProcessor(
+        listOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+    )
 
     private val imageView: ImageView by lazy {
         findViewById<ImageView>(R.id.iv_splash_image)
@@ -65,6 +74,18 @@ class SplashActivity : Activity() {
                     Log.e("Splash", "Can't start application\n${throwable.message}")
                 })
         )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (!permission.onRequestPerformed(permissions.toList(), grantResults)) {
+            startTelemetry()
+        }
     }
 
     override fun onPause() {
