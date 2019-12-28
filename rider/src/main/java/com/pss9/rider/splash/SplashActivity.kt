@@ -1,12 +1,12 @@
 package com.pss9.rider.splash
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import com.pss9.rider.R
 import com.pss9.rider.RiderActivity
 import com.pss9.rider.RiderAidApplication
@@ -17,7 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import java.io.IOException
 
-class SplashActivity : Activity() {
+class SplashActivity : AppCompatActivity() {
 
     private val disposables = CompositeDisposable()
     private var device: AntBikeDevice? = RiderAidApplication.ant
@@ -52,12 +52,19 @@ class SplashActivity : Activity() {
         }
 
 //        if (device == null || device!!.isActive) {
-        startTelemetry()
+//        startTelemetry()
 //            return
 //        }
 //
 //        device!!.activate(this)
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        permission.onValidatePermission(this)
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -76,6 +83,16 @@ class SplashActivity : Activity() {
         )
     }
 
+    override fun onPause() {
+        super.onPause()
+        disposables.clear()
+    }
+
+    private fun startTelemetry() {
+        startActivity(Intent(applicationContext, RiderActivity::class.java))
+        finish()
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -86,15 +103,5 @@ class SplashActivity : Activity() {
         if (!permission.onRequestPerformed(permissions.toList(), grantResults)) {
             startTelemetry()
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        disposables.clear()
-    }
-
-    private fun startTelemetry() {
-        startActivity(Intent(applicationContext, RiderActivity::class.java))
-        finish()
     }
 }
