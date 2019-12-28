@@ -47,6 +47,8 @@ class GeoLocationHolder(context: Context, private val view: PositionPresenter.Vi
 
                 last = location
                 it.onPositionChanged(location)
+
+                view.updatePosition(location)
                 view.updateDistance(distance)
             }
         }
@@ -61,7 +63,7 @@ class GeoLocationHolder(context: Context, private val view: PositionPresenter.Vi
             reset()
 
             val locationProvider = locationManager.getBestProvider(createFineCriteria(), true)
-            locationManager.requestLocationUpdates(locationProvider, 250, 0f, this)
+            locationManager.requestLocationUpdates(locationProvider, 500, 0f, this)
         }
 
         override fun onProviderDisabled(provider: String) {
@@ -99,6 +101,7 @@ class GeoLocationHolder(context: Context, private val view: PositionPresenter.Vi
     @SuppressLint("MissingPermission")
     private fun initializeLocationService() {
         if (permission != PackageManager.PERMISSION_GRANTED) {
+            view.showWarning("Error", "Permission not granted")
             return
         }
 

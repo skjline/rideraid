@@ -27,6 +27,28 @@
     <string name="unit_km">Km</string>
     <string name="unit_speed_kmh">KmH</string>
 
+    <string name="title_activity_maps">Map</string>
+
+    <string name="map_zoom_level_00">00</string>
+    <string name="map_zoom_level_01">01</string>
+    <string name="map_zoom_level_02">02</string>
+    <string name="map_zoom_level_03">03</string>
+    <string name="map_zoom_level_04">04</string>
+    <string name="map_zoom_level_05">05</string>
+    <string name="map_zoom_level_06">06</string>
+    <string name="map_zoom_level_07">07</string>
+    <string name="map_zoom_level_08">08</string>
+    <string name="map_zoom_level_09">09</string>
+    <string name="map_zoom_level_10">10</string>
+    <string name="map_zoom_level_11">11</string>
+    <string name="map_zoom_level_12">12</string>
+    <string name="map_zoom_level_13">13</string>
+    <string name="map_zoom_level_14">14</string>
+    <string name="map_zoom_level_15">15</string>
+    <string name="map_zoom_level_16">16</string>
+    <string name="map_zoom_level_17">17</string>
+    <string name="map_zoom_level_18">18</string>
+
     <!-- Preferences -->
     <string name="preferences">Preferences</string>
     <string name="shared_preferences">SharedPref</string>
@@ -43,6 +65,11 @@
     <string name="unit_type_summary">Units displaying distance measurement</string>
     <string name="unit_type_default">@string/unit_speed_mph</string>
 
+    <string name="zoom_level_key">zoom_level</string>
+    <string name="zoom_level_title">Zoom Level</string>
+    <string name="zoom_level_summary">Map icon zoom level</string>
+    <string name="zoom_level_default">@string/map_zoom_level_16</string>
+
     <string-array name="unit_type_entry">
         <item>@string/imperial_units</item>
         <item>@string/metric_units</item>
@@ -52,6 +79,49 @@
         <item>@string/unit_speed_mph</item>
         <item>@string/unit_speed_kmh</item>
     </string-array>
-    <string name="title_activity_maps">Map</string>
+
+    <string-array name="zoom_level_entry">
+        <item>@string/map_zoom_level_00</item>
+        <item>@string/map_zoom_level_01</item>
+        <item>@string/map_zoom_level_02</item>
+        <item>@string/map_zoom_level_03</item>
+        <item>@string/map_zoom_level_04</item>
+        <item>@string/map_zoom_level_05</item>
+        <item>@string/map_zoom_level_06</item>
+        <item>@string/map_zoom_level_07</item>
+        <item>@string/map_zoom_level_08</item>
+        <item>@string/map_zoom_level_09</item>
+        <item>@string/map_zoom_level_10</item>
+        <item>@string/map_zoom_level_11</item>
+        <item>@string/map_zoom_level_12</item>
+        <item>@string/map_zoom_level_13</item>
+        <item>@string/map_zoom_level_14</item>
+        <item>@string/map_zoom_level_15</item>
+        <item>@string/map_zoom_level_16</item>
+        <item>@string/map_zoom_level_17</item>
+        <item>@string/map_zoom_level_18</item>
+    </string-array>
+
+    <string-array name="zoom_level_value">
+        <item>@string/map_zoom_level_00</item>
+        <item>@string/map_zoom_level_01</item>
+        <item>@string/map_zoom_level_02</item>
+        <item>@string/map_zoom_level_03</item>
+        <item>@string/map_zoom_level_04</item>
+        <item>@string/map_zoom_level_05</item>
+        <item>@string/map_zoom_level_06</item>
+        <item>@string/map_zoom_level_07</item>
+        <item>@string/map_zoom_level_08</item>
+        <item>@string/map_zoom_level_09</item>
+        <item>@string/map_zoom_level_10</item>
+        <item>@string/map_zoom_level_11</item>
+        <item>@string/map_zoom_level_12</item>
+        <item>@string/map_zoom_level_13</item>
+        <item>@string/map_zoom_level_14</item>
+        <item>@string/map_zoom_level_15</item>
+        <item>@string/map_zoom_level_16</item>
+        <item>@string/map_zoom_level_17</item>
+        <item>@string/map_zoom_level_18</item>
+    </string-array>
 
 </resources>
