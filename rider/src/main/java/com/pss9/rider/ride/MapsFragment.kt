@@ -1,8 +1,11 @@
 package com.pss9.rider.ride
 
+import android.content.Context
 import android.graphics.Color
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,9 +25,9 @@ import com.pss9.rider.service.presenter.PositionPresenter
 
 class MapsFragment : Fragment(), OnMapReadyCallback, PositionPresenter.View {
 
+    private var last: LatLng? = null
     private var location: PositionPresenter? = null
 
-    private var zoom = 15f
     private val maker = MarkerOptions()
     private val points = mutableListOf<LatLng>()
 
@@ -38,6 +41,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, PositionPresenter.View {
 
     override fun onResume() {
         super.onResume()
+
         (childFragmentManager.findFragmentById(R.id.view_google_map) as SupportMapFragment).getMapAsync(
             this
         )
@@ -48,6 +52,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, PositionPresenter.View {
 
         location?.stop()
         location = null
+
+        persistZoomLevel()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -57,31 +63,42 @@ class MapsFragment : Fragment(), OnMapReadyCallback, PositionPresenter.View {
             start()
         }
 
-        map.setOnCameraMoveListener {
-            zoom = map.cameraPosition.zoom
-            Log.wtf("CameraMoved", "Zoom Level: ${map.cameraPosition.zoom}")
-        }
-
+        restorePreviousZoomLevel()
     }
 
     override fun updateDistance(distance: Double) {
-//        Toast.makeText(context!!, "Distance: $distance", Toast.LENGTH_LONG).show()
+
     }
 
     override fun updatePosition(location: Location) {
         val position = LatLng(location.latitude, location.longitude)
+
         points.add(position)
+
+        last?.let {
+            val distance = location.distanceTo(Location(LocationManager.GPS_PROVIDER).apply {
+                latitude = it.latitude
+                longitude = it.longitude
+            })
+
+            // if distance is under 5 meters do not attempt to re-position the map
+            if (distance <= 5) {
+                return
+            }
+        }
+
+        last = position
 
         map.apply {
             clear()
             addMarker(maker.apply { position(position) })
             addPolyline(PolylineOptions().addAll(points).color(Color.GREEN))
             animateCamera(
-                CameraUpdateFactory.newLatLngZoom(
+                CameraUpdateFactory.newLatLng(
                     LatLng(
                         position.latitude + offset(),
                         position.longitude
-                    ), zoom
+                    )
                 )
             )
         }
@@ -91,10 +108,37 @@ class MapsFragment : Fragment(), OnMapReadyCallback, PositionPresenter.View {
         Toast.makeText(context!!, "$title: $message", Toast.LENGTH_LONG).show()
     }
 
-    private fun offset(): Double {
+    private fun persistZoomLevel() {
+        val z = map.cameraPosition.zoom.toInt().toString()
+        val pref = context!!.getSharedPreferences(
+            context!!.getString(R.string.shared_preferences),
+            Context.MODE_PRIVATE
+        )
+        pref.edit().putString(context!!.getString(R.string.zoom_level_key), z).apply()
+    }
 
-        val rate = if (zoom < 16f) {
-            zoom / 16f
+    private fun restorePreviousZoomLevel() {
+        val pref = context!!.getSharedPreferences(
+            context!!.getString(R.string.shared_preferences),
+            Context.MODE_PRIVATE
+        )
+        val z = pref.getString(
+            context!!.getString(R.string.zoom_level_key),
+            context!!.getString(R.string.map_zoom_level_16)
+        )!!.toFloat()
+
+        // experiment result:
+        // requires at least a 3 ~ 5 sec delay for properly restoring the zoom level without an issue
+        Handler().postDelayed({
+            map.moveCamera(CameraUpdateFactory.zoomTo(z))
+            Log.wtf("Zoom", "Recovering Zoom Level: $z")
+        }, 3000)
+    }
+
+    private fun offset(): Double {
+        val z = map.cameraPosition.zoom
+        val rate = if (z < 16f) {
+            z / 16f
         } else {
             0.0f
         }
