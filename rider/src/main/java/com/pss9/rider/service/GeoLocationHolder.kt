@@ -1,4 +1,4 @@
-package com.pss9.rider.ride.module
+package com.pss9.rider.service
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -11,7 +11,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
-import com.pss9.rider.presenter.PositionPresenter
+import com.pss9.rider.service.presenter.PositionPresenter
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
@@ -25,7 +25,8 @@ class GeoLocationHolder(context: Context, private val view: PositionPresenter.Vi
     private var active = false
 
     private var location: Location? = null
-    private var listener: PositionUpdateListener = object : PositionUpdateListener {
+    private var listener: PositionUpdateListener = object :
+        PositionUpdateListener {
         override fun onPositionChanged(location: Location) {
             publish.onNext(location)
         }
@@ -46,6 +47,8 @@ class GeoLocationHolder(context: Context, private val view: PositionPresenter.Vi
 
                 last = location
                 it.onPositionChanged(location)
+
+                view.updatePosition(location)
                 view.updateDistance(distance)
             }
         }
@@ -60,7 +63,7 @@ class GeoLocationHolder(context: Context, private val view: PositionPresenter.Vi
             reset()
 
             val locationProvider = locationManager.getBestProvider(createFineCriteria(), true)
-            locationManager.requestLocationUpdates(locationProvider, 250, 0f, this)
+            locationManager.requestLocationUpdates(locationProvider, 500, 0f, this)
         }
 
         override fun onProviderDisabled(provider: String) {
@@ -98,6 +101,7 @@ class GeoLocationHolder(context: Context, private val view: PositionPresenter.Vi
     @SuppressLint("MissingPermission")
     private fun initializeLocationService() {
         if (permission != PackageManager.PERMISSION_GRANTED) {
+            view.showWarning("Error", "Permission not granted")
             return
         }
 

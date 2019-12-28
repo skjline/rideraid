@@ -1,7 +1,8 @@
 package com.pss9.rider.util;
 
 import com.pss9.rider.R;
-import com.pss9.rider.ride.module.TimedPulse;
+import com.pss9.rider.common.UnitUtils;
+import com.pss9.rider.service.TimedPulse;
 
 import org.junit.Assert;
 import org.junit.Test;

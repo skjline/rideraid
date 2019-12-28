@@ -1,22 +1,25 @@
-package com.pss9.rider.ride
+package com.pss9.rider
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.pss9.rider.R
+import com.pss9.rider.common.WindowsUtils
 import com.pss9.rider.preference.MainPreferenceActivity
-import com.pss9.rider.util.WindowsUtils
+import com.pss9.rider.ride.MapsFragment
 
 class RiderActivity : AppCompatActivity() {
 
+    private val shared by lazy {
+        getSharedPreferences(getString(R.string.shared_preferences), Context.MODE_PRIVATE)
+    }
+
     var listener = { sharedPreferences: SharedPreferences, key: String ->
-        Log.wtf("RiderActivity", "SharedPreference: $key")
         if (key == getString(R.string.orientation_lock_key)) {
             setActivityOrientation(sharedPreferences.getBoolean(key, false))
         }
@@ -27,13 +30,15 @@ class RiderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_fragment_placeholder, Telemetry()).commit()
+            .replace(
+                R.id.main_fragment_placeholder,
+                MapsFragment()
+            ).commit()
 
-        val orientation = PreferenceManager.getDefaultSharedPreferences(this)
-            .getBoolean(
-                getString(R.string.orientation_lock_key),
-                getString(R.string.orientation_lock_default).toBoolean()
-            )
+        val orientation = shared.getBoolean(
+            getString(R.string.orientation_lock_key),
+            getString(R.string.orientation_lock_default).toBoolean()
+        )
 
         setActivityOrientation(orientation)
     }
@@ -42,9 +47,9 @@ class RiderActivity : AppCompatActivity() {
         val settings = menu.findItem(R.id.action_preferences)
         if (settings != null) {
             WindowsUtils.tintMenuIcon(this, settings, R.color.colorActionMenuItem)
+            return true
         }
-
-        return true
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -56,19 +61,17 @@ class RiderActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onResume() {
-        super.onResume()
+//    override fun onResume() {
+//        super.onResume()
+//
+//        shared.registerOnSharedPreferenceChangeListener(listener)
+//    }
 
-        PreferenceManager.getDefaultSharedPreferences(this)
-            .registerOnSharedPreferenceChangeListener(listener)
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        PreferenceManager.getDefaultSharedPreferences(this)
-            .unregisterOnSharedPreferenceChangeListener(listener)
-    }
+//    override fun onPause() {
+//        super.onPause()
+//
+//        shared.unregisterOnSharedPreferenceChangeListener(listener)
+//    }
 
     private fun setActivityOrientation(portrait: Boolean) {
         Log.d(packageName, "Changing lock portrait mode: $portrait")

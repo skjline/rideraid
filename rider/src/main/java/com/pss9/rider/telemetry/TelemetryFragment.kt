@@ -1,6 +1,7 @@
-package com.pss9.rider.ride
+package com.pss9.rider.telemetry
 
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.Settings
@@ -10,20 +11,21 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.pss9.rider.R
 import com.pss9.rider.RiderAidApplication
-import com.pss9.rider.ant.AntBikeDevice
-import com.pss9.rider.presenter.PositionPresenter
-import com.pss9.rider.presenter.PresenterService
-import com.pss9.rider.presenter.TelemetryPresenter
-import com.pss9.rider.presenter.TimePresenter
-import com.pss9.rider.ride.module.AntTelemetrySensor
-import com.pss9.rider.ride.module.GeoLocationHolder
-import com.pss9.rider.ride.module.TimedPulse
-import com.pss9.rider.util.UnitUtils
-import com.pss9.rider.util.WindowsUtils
+import com.pss9.rider.common.UnitUtils
+import com.pss9.rider.common.WindowsUtils
+import com.pss9.rider.common.ant.AntBikeDevice
+import com.pss9.rider.service.AntTelemetrySensor
+import com.pss9.rider.service.GeoLocationHolder
+import com.pss9.rider.service.TimedPulse
+import com.pss9.rider.service.presenter.PositionPresenter
+import com.pss9.rider.service.presenter.PresenterService
+import com.pss9.rider.service.presenter.TelemetryPresenter
+import com.pss9.rider.service.presenter.TimePresenter
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Telemetry : Fragment(), TimePresenter.View, TelemetryPresenter.View, PositionPresenter.View {
+class TelemetryFragment : Fragment(), TimePresenter.View, TelemetryPresenter.View,
+    PositionPresenter.View {
     private lateinit var tvTimer: TextView
     private lateinit var tvCadence: TextView
     private lateinit var tvSpeed: TextView
@@ -61,7 +63,7 @@ class Telemetry : Fragment(), TimePresenter.View, TelemetryPresenter.View, Posit
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.telemetry_fragment, container, false)
+    ): View = inflater.inflate(R.layout.fragment_telemetry, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -117,6 +119,10 @@ class Telemetry : Fragment(), TimePresenter.View, TelemetryPresenter.View, Posit
 
     override fun updateSpeed(spd: Long) {
         tvSpeed.text = UnitUtils.convertCalcSpeed(spd, unit).toString()
+    }
+
+    override fun updatePosition(location: Location) {
+
     }
 
     override fun updateDistance(distance: Double) {

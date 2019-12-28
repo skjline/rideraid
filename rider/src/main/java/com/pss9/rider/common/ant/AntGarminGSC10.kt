@@ -1,4 +1,4 @@
-package com.pss9.rider.ant
+package com.pss9.rider.common.ant
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -18,7 +18,8 @@ class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
     private var antPCC: ArrayList<AntPlusBikeSpdCadCommonPcc>? = ArrayList()
 
     init {
-        type = AntDevice.ANT_DEVICE_TYPE_CADENCE
+        type =
+            AntDevice.ANT_DEVICE_TYPE_CADENCE
     }
 
     override fun activate(activity: Activity) {
@@ -36,7 +37,11 @@ class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
                         activateCombinedSpeedSensor(activity.applicationContext, result)
 
                         isActive = true
-                        eventHandler.onEvent(BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ACTIVE.toLong()))
+                        eventHandler.onEvent(
+                            BikeEvent.createOpEvent(
+                                AntDevice.ANT_DEVICE_ACTIVE.toLong()
+                            )
+                        )
                     }
                     RequestAccessResult.DEPENDENCY_NOT_INSTALLED -> {
                         val alertDialogBuilder = AlertDialog.Builder(activity)
@@ -62,14 +67,18 @@ class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
                         alertDialogBuilder.create().show()
                     }
                     else -> eventHandler.onEvent(
-                        BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ERROR.toLong())
+                        BikeEvent.createOpEvent(
+                            AntDevice.ANT_DEVICE_ERROR.toLong()
+                        )
                     )
                 }
             }, { state ->
                 if (state == DeviceState.DEAD) {
                     eventHandler.onEvent(
 //                        DeviceState.DEAD.intValue.toLong()
-                        BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ERROR.toLong())
+                        BikeEvent.createOpEvent(
+                            AntDevice.ANT_DEVICE_ERROR.toLong()
+                        )
                     )
                 }
             })
@@ -89,7 +98,9 @@ class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
     private fun subscribeCadenceEvent(pcc: AntPlusBikeSpdCadCommonPcc) {
         (pcc as AntPlusBikeCadencePcc).subscribeCalculatedCadenceEvent { _, _, calculatedCadence ->
             eventHandler.onEvent(
-                BikeEvent.createCadanceEvent(calculatedCadence.toLong())
+                BikeEvent.createCadanceEvent(
+                    calculatedCadence.toLong()
+                )
             )
         }
     }
@@ -114,16 +125,24 @@ class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
                                 ) {
                                     // units m/s
                                     eventHandler.onEvent(
-                                        BikeEvent.createSpeedEvent(calculatedSpeed.toLong())
+                                        BikeEvent.createSpeedEvent(
+                                            calculatedSpeed.toLong()
+                                        )
                                     )
                                 }
                             })
 
-                        eventHandler.onEvent(BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ACTIVE.toLong()))
+                        eventHandler.onEvent(
+                            BikeEvent.createOpEvent(
+                                AntDevice.ANT_DEVICE_ACTIVE.toLong()
+                            )
+                        )
                     }
                     else -> eventHandler.onEvent(
 //                            resultCode.intValue.toLong()
-                        BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ERROR.toLong())
+                        BikeEvent.createOpEvent(
+                            AntDevice.ANT_DEVICE_ERROR.toLong()
+                        )
                     )
                 }
             },
@@ -133,7 +152,9 @@ class AntGarminGSC10(tire: Long) : AntBikeDevice(tire) {
                 if (newDeviceState == DeviceState.DEAD) {
                     eventHandler.onEvent(
 //                        DeviceState.DEAD.intValue.toLong()
-                        BikeEvent.createOpEvent(AntDevice.ANT_DEVICE_ERROR.toLong())
+                        BikeEvent.createOpEvent(
+                            AntDevice.ANT_DEVICE_ERROR.toLong()
+                        )
                     )
                 }
             }
