@@ -1,24 +1,33 @@
 package com.pss9.rider.splash
 
-import android.app.Activity
+import android.Manifest
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import com.pss9.rider.R
 import com.pss9.rider.RiderActivity
 import com.pss9.rider.RiderAidApplication
 import com.pss9.rider.common.ant.AntBikeDevice
 import com.pss9.rider.common.ant.AntDevice
+import com.pss9.rider.service.PermissionProcessor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import java.io.IOException
 
-class SplashActivity : Activity() {
+class SplashActivity : AppCompatActivity() {
 
     private val disposables = CompositeDisposable()
     private var device: AntBikeDevice? = RiderAidApplication.ant
+
+    private val permission = PermissionProcessor(
+        listOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+    )
 
     private val imageView: ImageView by lazy {
         findViewById<ImageView>(R.id.iv_splash_image)
@@ -43,12 +52,19 @@ class SplashActivity : Activity() {
         }
 
 //        if (device == null || device!!.isActive) {
-        startTelemetry()
+//        startTelemetry()
 //            return
 //        }
 //
 //        device!!.activate(this)
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        permission.onValidatePermission(this)
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -75,5 +91,17 @@ class SplashActivity : Activity() {
     private fun startTelemetry() {
         startActivity(Intent(applicationContext, RiderActivity::class.java))
         finish()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (!permission.onRequestPerformed(permissions.toList(), grantResults)) {
+            startTelemetry()
+        }
     }
 }
